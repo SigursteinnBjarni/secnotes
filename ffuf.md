@@ -147,10 +147,6 @@ for i in $(seq 1 1000); do echo $i >> ids.txt; done
 ffuf -w ids.txt:FUZZ -u http://admin.academy.htb:PORT/admin/admin.php -X POST -d 'id=FUZZ' -H 'Content-Type: application/x-www-form-urlencoded' -fs xxx
 ```
 
-[http://archive.academy.htb:30661/courses/](http://archive.academy.htb:30661/courses/)  
-[http://archive.academy.htb:30661/courses/index.php](http://archive.academy.htb:30661/courses/index.php)  
-[http://faculty.academy.htb:30661/courses/linux-security.php7](http://faculty.academy.htb:30661/courses/linux-security.php7)
-
 
 
 
